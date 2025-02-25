@@ -324,6 +324,15 @@
         "name": "NewSprite",
         "smoothed": true,
         "userAdded": false
+      },
+      {
+        "alwaysLoaded": false,
+        "file": "assets/Plat1.png",
+        "kind": "image",
+        "metadata": "",
+        "name": "assets\\Plat1.png",
+        "smoothed": true,
+        "userAdded": true
       }
     ],
     "resourceFolders": []
@@ -381,14 +390,14 @@
           "angle": 0,
           "customSize": true,
           "depth": 1,
-          "height": 143,
+          "height": 50,
           "keepRatio": true,
           "layer": "",
-          "name": "bg",
-          "persistentUuid": "8d7f70f8-6e03-4158-9351-3bdeece13a49",
-          "width": 1545,
-          "x": -78,
-          "y": 377,
+          "name": "plat",
+          "persistentUuid": "a4911d29-bda1-4a06-ada3-40b919f0aeab",
+          "width": 1442,
+          "x": -51,
+          "y": 386,
           "zOrder": 2,
           "numberProperties": [],
           "stringProperties": [],
@@ -405,13 +414,6 @@
           "variables": [],
           "effects": [],
           "behaviors": [
-            {
-              "canBeGrabbed": true,
-              "name": "Platform",
-              "platformType": "NormalPlatform",
-              "type": "PlatformBehavior::PlatformBehavior",
-              "yGrabOffset": 0
-            },
             {
               "acceleration": 1500,
               "canGoDownFromJumpthru": true,
@@ -1481,65 +1483,15 @@
           ]
         },
         {
-          "adaptCollisionMaskAutomatically": true,
           "assetStoreId": "",
-          "name": "bg",
-          "type": "Sprite",
-          "updateIfNotVisible": false,
+          "height": 32,
+          "name": "plat",
+          "texture": "assets\\Plat1.png",
+          "type": "TiledSpriteObject::TiledSprite",
+          "width": 32,
           "variables": [],
           "effects": [],
-          "behaviors": [],
-          "animations": [
-            {
-              "name": "NewSprite",
-              "useMultipleDirections": false,
-              "directions": [
-                {
-                  "looping": false,
-                  "metadata": "{\"pskl\":{}}",
-                  "timeBetweenFrames": 0.08,
-                  "sprites": [
-                    {
-                      "hasCustomCollisionMask": true,
-                      "image": "NewSprite",
-                      "points": [],
-                      "originPoint": {
-                        "name": "origine",
-                        "x": 0,
-                        "y": 0
-                      },
-                      "centerPoint": {
-                        "automatic": true,
-                        "name": "centre",
-                        "x": 0,
-                        "y": 0
-                      },
-                      "customCollisionMask": [
-                        [
-                          {
-                            "x": 0,
-                            "y": 21
-                          },
-                          {
-                            "x": 64,
-                            "y": 21
-                          },
-                          {
-                            "x": 64,
-                            "y": 31
-                          },
-                          {
-                            "x": 0,
-                            "y": 31
-                          }
-                        ]
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
+          "behaviors": []
         }
       ],
       "objectsFolderStructure": {
@@ -1549,7 +1501,7 @@
             "objectName": "player"
           },
           {
-            "objectName": "bg"
+            "objectName": "plat"
           }
         ]
       },
@@ -1642,6 +1594,64 @@
                     "Animation",
                     "=",
                     "\"Run\""
+                  ]
+                }
+              ],
+              "events": [
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "PlatformBehavior::CurrentSpeed"
+                      },
+                      "parameters": [
+                        "player",
+                        "PlatformerObject",
+                        ">",
+                        "0"
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "FlippableCapability::FlippableBehavior::FlipX"
+                      },
+                      "parameters": [
+                        "player",
+                        "Flippable",
+                        "="
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "BuiltinCommonInstructions::Standard",
+                  "conditions": [
+                    {
+                      "type": {
+                        "value": "PlatformBehavior::CurrentSpeed"
+                      },
+                      "parameters": [
+                        "player",
+                        "PlatformerObject",
+                        "<",
+                        "0"
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": {
+                        "value": "FlippableCapability::FlippableBehavior::FlipX"
+                      },
+                      "parameters": [
+                        "player",
+                        "Flippable",
+                        "yes"
+                      ]
+                    }
                   ]
                 }
               ]
@@ -1739,10 +1749,6 @@
         {
           "name": "Opacity",
           "type": "OpacityCapability::OpacityBehavior"
-        },
-        {
-          "name": "Platform",
-          "type": "PlatformBehavior::PlatformBehavior"
         },
         {
           "name": "PlatformerObject",
